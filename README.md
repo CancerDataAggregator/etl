@@ -1,6 +1,6 @@
-# NextGenETL: ETL Scripts (2019)
+# CancerDataAggregator: ETL Scripts (2019)
 
-A set of scripts for pulling data out of GDC.
+A set of scripts for pulling data out of GDC. Many of these scripts are directly from ISB-CGC ETL process and are not needed. To be removed at a later date
 
 ## Support scripts
 
@@ -19,20 +19,13 @@ in. Dumb script just deletes the tree and clones the repo.
 ## Installing GDC Release Data into BQ tables
 
 When there is a new GDC data release, we pull data about the release out of GDC using their API and build
-BQ tables holding these data in the `isb-cgc.GDC_metadata` data set. These steps are currently (10/2019)
-performed on an ISB internal server and uploaded to BQ. Tables created (e.g. * = 16):
+a BQ table holding these data in the `gdc-bq-sample.gdc_metadata` data set. Table created (e.g. * = 16):
 
-- `rel*_aliquot2caseIDmap`
+- `r*_clinical
+- `r*_clinical_and_file
 
-- `rel*_caseData`
-
-- `rel*_fileData_active`
-
-- `rel*_fileData_legacy`
-
-- `rel*_slide2caseIDmap`
-
-## Extracting DCF Manifest Data into BQ Tables
+## Extracting DCF Manifest Data into BQ Tables 
+### This is not currently implemented and subject to change
 
 For each GDC release, the DCF issues manifests (active, legacy) of all the files they are hosting in
 TSV files, including the mapping of each file UUID to a GCS `gs://` bucket path. We import these
@@ -55,7 +48,7 @@ These sample files should be customized for parameters like project, dataset, ta
 uploaded into the Google bucket specified in your personalized ~/setEnvVars.sh file on the VM.
 
 ## ETL Scripts to Build BigQuery Data Tables
-
+### These scripts work on program level data tables that ISB-CGC makes available and are not the same as our large nested table
 Once the above tables have been created for a release, you can then use these scripts to build
 BQ data tables for the release, if any of the relevant data has been updated.
 
@@ -69,7 +62,7 @@ BQ data tables for the release, if any of the relevant data has been updated.
     - Sample config file: `./ConfigFiles.MirnaIsoformExprBQBuild.yaml`
 
 ## ETL Script to Build BigQuery Metadata Used by Web App
-
+### This is also not available through CDA and probably will not be under consideration
 The script is still under development. However, a version that recreates the existing table from
 archival data is complete. However, BQ table schemas have changed, so this script is in the process
 of being updated:
