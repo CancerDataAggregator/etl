@@ -1,4 +1,4 @@
-# CancerDataAggregator: ETL Scripts (2019)
+# CancerDataAggregator: ETL Scripts (2020)
 
 A set of scripts for pulling data out of GDC. Many of these scripts are directly from ISB-CGC ETL process and are not needed. To be removed at a later date
 
