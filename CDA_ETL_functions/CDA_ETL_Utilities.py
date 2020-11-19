@@ -111,3 +111,8 @@ def none_to_zero(dictr):
     if dictr[field_name] == 'None':
         dictr[field_name]=0
     return(dictr)
+
+def name_change(dictr,new_name):
+    temp = dict()
+    temp[new_name] = dictr.pop(list(dictr.keys())[0])
+    return(temp)
