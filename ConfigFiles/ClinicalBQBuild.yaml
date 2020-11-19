@@ -22,26 +22,39 @@ api_params:
     - follow_ups.molecular_tests
     - project
     - files
+    - samples
+    - samples.portions
+    - samples.portions.analytes
+    - samples.portions.analytes.aliquots
+    - samples.portions.slides
 
   # fields that aren't desired for bq
-  EXCLUDE_FIELDS:
-    aliquot_ids: '' 
-    analyte_ids: ''
-    case_autocomplete: ''
-    diagnosis_ids: ''
-    id: ''
-    portion_ids: ''
-    slide_ids: ''
-    submitter_aliquot_ids: ''
-    submitter_analyte_ids: ''
-    submitter_diagnosis_ids: ''
-    submitter_portion_ids: ''
-    submitter_slide_ids: ''
+  TRANSFORM_FIELDS:
+    aliquot_ids: 'exclude' 
+    analyte_ids: 'exclude'
+    case_autocomplete: 'exclude'
+    diagnosis_ids: 'exclude'
+    id: 'exclude'
+    portion_ids: 'exclude'
+    slide_ids: 'exclude'
+    submitter_aliquot_ids: 'exclude'
+    submitter_analyte_ids: 'exclude'
+    submitter_diagnosis_ids: 'exclude'
+    submitter_portion_ids: 'exclude'
+    submitter_slide_ids: 'exclude'
     files:
-      proportion_coverage_10x: ''
-      proportion_coverage_30x: ''
-      proportion_coverage_10X: ''
-      proportion_coverage_30X: ''
+      proportion_coverage_10x: 'exclude'
+      proportion_coverage_30x: 'exclude'
+      proportion_coverage_10X: 'exclude'
+      proportion_coverage_30X: 'exclude'
+    samples:
+      portions:
+          analytes:
+              aliquots:
+                  source_center: 
+                      transformations: 
+                          simple: [['none_to_zero','']]
+                           # usually integer (22,23) sometimes 'None'
 
   # How many case records to retrieve per GDC API call. Larger batch sizes are more
   # likely to fail before completion, seems to work consistently at 2500
@@ -103,9 +116,9 @@ bq_params:
 
 steps:
   # Get the manifest from the source data node:
-  #- retrieve_cases_and_write_to_jsonl
+  - retrieve_cases_and_write_to_jsonl
 
-  #- upload_jsonl_to_cloud_storage
+  - upload_jsonl_to_cloud_storage
 
   # Get the table schema/description/tags pulled from git:
   - create_bq_schema_obj
