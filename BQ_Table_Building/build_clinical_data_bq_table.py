@@ -260,6 +260,11 @@ def main(args):
         console_out('Starting GDC API calls!')
         retrieve_and_save_case_records(scratch_fp)
 
+    if 'transform_data_in_jsonl' in steps:
+        # Transforms data in the extracted data jsonl. Responsible for some CCDH harmonization
+        # and other transformations as needed to upload BQ data
+        console_out('Transforming data in extracted data!')
+        transform_data_in_jsonl(API_PARAMS,scratch_fp)
     if 'upload_jsonl_to_cloud_storage' in steps:
         # Insert the generated jsonl file into google storage bucket, for later
         # ingestion by BQ
