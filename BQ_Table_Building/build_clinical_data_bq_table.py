@@ -109,7 +109,7 @@ def retrieve_and_save_case_records(scratch_fp):
                 console_out("Batch size: {0}", (batch_record_count,))
 
             for case in cases_json:
-                case = exclude_nested_fields(cases_json,API_PARAMS['EXCLUDE_FIELDS'])
+                case = transform_nested_fields(case,API_PARAMS['TRANSFORM_FIELDS'])
 
                 no_list_value_case = convert_dict_to_string(case)
                 json.dump(obj=no_list_value_case, fp=jsonl_file)
@@ -247,6 +247,8 @@ def main(args):
     try:
         global API_PARAMS, BQ_PARAMS
         API_PARAMS, BQ_PARAMS, steps = load_config(args, YAML_HEADERS)
+        API_PARAMS['TRANSFORM_FIELDS'] = functionalize_trans_dict(API_PARAMS['TRANSFORM_FIELDS'])
+        print(API_PARAMS['TRANSFORM_FIELDS'])
     except ValueError as err:
         has_fatal_error("{}".format(err), ValueError)
 
