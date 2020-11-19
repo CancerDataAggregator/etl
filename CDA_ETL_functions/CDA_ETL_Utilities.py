@@ -94,7 +94,7 @@ def functionalize_trans_dict(trans_dict):
                 temp[trans_name] = functionalize_trans_dict(trans_val)
     return(temp)
 
-def main_of_transform_data_in_jsonl(API_PARAMS,scratchfp_in,scratchfp_out)
+def main_of_transform_data_in_jsonl(API_PARAMS,scratchfp_in,scratchfp_out):
     """ This function will read from scratchfp_in, apply transformations to data as instructed from the YAML file,
     and write to another JSONL file scratchfp_out
     """
