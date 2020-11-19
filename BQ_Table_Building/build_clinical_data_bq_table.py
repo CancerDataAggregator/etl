@@ -137,7 +137,7 @@ def retrieve_and_save_case_records(scratch_fp):
                       "\n\t{3:.1f} sec to retrieve from GDC API output to jsonl file\n",
                 (curr_index, cases_count, file_size, total_time))
 
-
+def transform_data_in_jsonl(API_PARAMS,scratch_fp):
 ##################################################################################
 #
 #   BQ table creation and data insertion
@@ -265,6 +265,7 @@ def main(args):
         # and other transformations as needed to upload BQ data
         console_out('Transforming data in extracted data!')
         transform_data_in_jsonl(API_PARAMS,scratch_fp)
+        
     if 'upload_jsonl_to_cloud_storage' in steps:
         # Insert the generated jsonl file into google storage bucket, for later
         # ingestion by BQ
