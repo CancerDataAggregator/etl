@@ -109,7 +109,7 @@ def retrieve_and_save_case_records(scratch_fp):
                 console_out("Batch size: {0}", (batch_record_count,))
 
             for case in cases_json:
-                case = transform_nested_fields(case,API_PARAMS['TRANSFORM_FIELDS'])
+                case = transform_nested_fields(case,API_PARAMS['EXCLUDE_FIELDS'])
 
                 no_list_value_case = convert_dict_to_string(case)
                 json.dump(obj=no_list_value_case, fp=jsonl_file)
