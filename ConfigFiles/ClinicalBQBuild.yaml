@@ -29,7 +29,7 @@ api_params:
     - samples.portions.slides
 
   # fields that aren't desired for bq
-  TRANSFORM_FIELDS:
+  EXCLUDE_FIELDS:
     aliquot_ids: 'exclude' 
     analyte_ids: 'exclude'
     case_autocomplete: 'exclude'
@@ -47,6 +47,8 @@ api_params:
       proportion_coverage_30x: 'exclude'
       proportion_coverage_10X: 'exclude'
       proportion_coverage_30X: 'exclude'
+  
+  TRANSFORM_FIELDS:  
     samples:
       portions:
           analytes:
@@ -117,6 +119,8 @@ bq_params:
 steps:
   # Get the manifest from the source data node:
   - retrieve_cases_and_write_to_jsonl
+  
+  - transform_data_in_jsonl
 
   - upload_jsonl_to_cloud_storage
 
