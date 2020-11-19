@@ -2,6 +2,11 @@
 This file is meant to define functions that CDA needs to implement on top of those defined 
 in previous files from the ISB-CGC ETL process located here: https://github.com/isb-cgc/NextGenETL
 """
+"""
+Functions needed to implement transformations upon the data
+"""
+import sys
+import jsonlines
 def transform_nested_fields(cases,trans_dict):
     """This function receives 1 case level dictionary directly from GDC API output, as well as
     a dictionary of dictionaries for the fields to be excluded from the data recieved from GDC.
@@ -47,30 +52,6 @@ def transform_nested_fields(cases,trans_dict):
                             print('trans_val is dict and matches field name')
                             print(trans_val)
     return(casecopy)
-"""    casecopy=cases.copy()
-    for field in cases.keys():
-        for exfield in exfields.keys():
-            if exfield == field:
-                #Check if end of excluded fields
-                excluded_field = (exfields[exfield]=='exclude')
-                #end_of_dat_field = end_of_data_field(cases[field])
-                if excluded_field:
-                    casecopy.pop(field)
-                else:
-                    if isinstance(casecopy[field],list):
-                        for i in range(len(casecopy[field])):
-                            if isinstance(casecopy[field][i],list):
-                                print('wtf is this a list?')
-                                print(field)
-                            casecopy[field][i] = transform_nested_fields(casecopy[field][i],
-                                                                exfields[exfield])
-                    elif isinstance(casecopy[field],dict):
-                        casecopy[field] = transform_nested_fields(casecopy[field],exfields[exfield])
-                    else:
-                        if isinstance(exfields[exfield],str):
-                            print(exfields[exfield])
-                        casecopy[field] = exfields[exfield](casecopy[field])
-                        """
     
 def end_of_data_field(field):
     """ This function determines if the field being examined by exclude_nested_fields() is the end of
@@ -86,12 +67,6 @@ def end_of_data_field(field):
             if isinstance(entries,dict):
                 end_of_field = False
                 return(end_of_field)
-
-def none_to_zero(dictr):
-    field_name = list(dictr.keys())[0]
-    if dictr[field_name] == 'None':
-        dictr[field_name]=0
-    return(dictr)
 
 def apply_all_transformations(data,transforms):
     if 'simple' in transforms.keys():
@@ -118,3 +93,21 @@ def functionalize_trans_dict(trans_dict):
             else:
                 temp[trans_name] = functionalize_trans_dict(trans_val)
     return(temp)
+
+def main_of_transform_data_in_jsonl(API_PARAMS,scratchfp_in,scratchfp_out)
+    """ This function will read from scratchfp_in, apply transformations to data as instructed from the YAML file,
+    and write to another JSONL file scratchfp_out
+    """
+    with jsonlines.open(scratchfp_in) as reader:
+        with jsonlines.open(scratchfp_out, mode = 'w') as writer:
+            for case in reader: # for each entry in the jsonl file
+                temp_entry = transform_nested_fields(case,API_PARAMS['TRANSFORM_FIELDS'])
+                writer.write(temp_entry)
+"""
+Actual Transforms of the data
+"""
+def none_to_zero(dictr):
+    field_name = list(dictr.keys())[0]
+    if dictr[field_name] == 'None':
+        dictr[field_name]=0
+    return(dictr)
