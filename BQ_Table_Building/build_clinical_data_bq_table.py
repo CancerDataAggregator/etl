@@ -138,6 +138,7 @@ def retrieve_and_save_case_records(scratch_fp):
                 (curr_index, cases_count, file_size, total_time))
 
 def transform_data_in_jsonl(API_PARAMS,scratch_fp):
+    """ Calls program to transform the data in JSONL file"""
 ##################################################################################
 #
 #   BQ table creation and data insertion
